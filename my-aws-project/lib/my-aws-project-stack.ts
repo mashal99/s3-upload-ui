@@ -28,7 +28,7 @@ export class MyAwsProjectStack extends cdk.Stack {
 
     // Lambda Function to process S3 uploads and save to DynamoDB
     const processLambda = new lambda.Function(this, 'ProcessLambda', {
-      runtime: lambda.Runtime.NODEJS_14_X,
+      runtime: lambda.Runtime.NODEJS_20_X,
       handler: 'index.handler',
       code: lambda.Code.fromAsset('lambda/process'),
       environment: {
@@ -65,7 +65,7 @@ export class MyAwsProjectStack extends cdk.Stack {
 
     // Lambda to create and terminate EC2 instance
     const ec2Lambda = new lambda.Function(this, 'Ec2Lambda', {
-      runtime: lambda.Runtime.NODEJS_14_X,
+      runtime: lambda.Runtime.NODEJS_20_X,
       handler: 'index.handler',
       code: lambda.Code.fromAsset('lambda/ec2'),
       environment: {
@@ -103,3 +103,11 @@ export class MyAwsProjectStack extends cdk.Stack {
     });
   }
 }
+
+const app = new cdk.App();
+new MyAwsProjectStack(app, 'MyAwsProjectStack', {
+  env: {
+    account: process.env.CDK_DEFAULT_ACCOUNT,
+    region: process.env.CDK_DEFAULT_REGION,
+  },
+});
